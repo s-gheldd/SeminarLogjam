@@ -1,0 +1,203 @@
+logjam
+weak Diffie-Hellman
+
+Georg Held
+Student HaW-Landshut
+s-gheldd@haw-landshut.de
+
+* Einleitung - Was ist logjam?
+
+* Einleitung - Urban Dictionary
+.iframe https://www.urbandictionary.com/define.php?term=logjam 800 800
+
+* Einleitung - weakdh.org
+.iframe https://weakdh.org/ 400 800
+Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinationalen Team von Forschern des CNRS, Inria Nancy-Grand Est, Inria Paris-Rocquencourt, Microsoft Research, Johns Hopkins University, University of Michigan und der University of Pennsylvania
+
+* Einleitung - Agenda
+: Erst die Puzzle Teile auslegen dann den Exploit aufbauen
+- Einleitung
+- TLS-Protokoll
+- DH Schlüssel Austausch
+- Number Field Sieve
+- logjam
+- Fazit
+
+* TLS
+
+* TLS - Was ist TLS?
+- dient zum Aufbau einer sicheren Kommunikation über unsichere Kanäle
+- beruht auf X.509 Zertifikaten (öffentlicher RSA Schlüssel + CA Signaturen)
+- das wichtigste Werkzeug für verschlüsselte Kommunikation im Internet
+- verwendet verschiedene Cipher Suits, die sich über die Jahre geändert haben
+.image img/TLS_google.png
+
+* TLS - Cipher Suits
+.code -edit code/ciphers
+
+* TLS Export Grade
+- Stammt aus dem Kalten Krieg und dem _First_Crypto_War_
+- Kryptographie fiel unter das Kriegswaffenkontrollgesetz (United States Munitions List)
+- Beschränkungen der Schlüssellängen (symmetrisch auf ca. 40-bit, asymmetrisch 512-bit) durch die Export Administrations Regulations(EAR)
+: Bureau of Industry and Security
+- Aufgehoben durch die Executive Order 13026 von 1996, EAR wurde aber erst 1999 angepasst
+- SSL3 ist von 1996
+.image img/US-DOC-BureauOfIndustryAndSecurity-Seal.svg 200 _
+
+
+* TLS - Handshake(1)
+.image img/tls_handshake_1.svg
+: certificate = public RSA key + CA signatures
+
+* TLS - Handshake(2)
+.image img/tls_handshake_2.svg
+
+* TLS - Handshake(3)
+.image img/tls_handshake_3.svg
+
+* TLS - Handshake(4)
+.image img/tls_handshake_4.svg
+
+* TLS - Handshake(5)
+.image img/tls_handshake_5.svg
+
+* TLS - Handschake Sicherheitlücke
+.image img/tls_handshake_flaw.svg
+
+* Diffie-Hellman
+
+* D-H - Überblick
+- _New_Directions_in_Cryptography_ Whitfield Diffie und Martin Hellman 1976
+- erste Public Key Verfahren
+- bietet in Form von Diffie-Hellman Ephemeral (DHE) sogenannte _perfect_forward_secrecy_
+- beruht auf dem Problem des diskreten Logarithmus (hoffentlich NP-Vollständig), im Gegensatz zu RSA (Primfaktorzerlegung)
+: Rivest, Shamir, Adleman
+- 2015 Turing Award
+
+* D-H - Erfinder
+.image img/Diffie_and_Hellman.jpeg
+.caption Whitfield Diffie & Martin Hellman
+
+* D-H - Übung
+.image img/xkcd.png
+.caption Changing the names would be easier, but if you're not comfortable lying, try only making friends with people named Alice, Bob, Carol, etc.
+: Welche Zahlen braucht man? p,g,a,b
+: Durchführen am Whiteboard p = 5, g = 2, a b wählen
+
+* D-H - TLS Handshake(1)
+.image img/DH_1.png
+
+* D-H - TLS Handshake(2)
+.image img/DH_2.png
+
+* D-H - TLS Handshake(3)
+.image img/DH_3.png
+
+* D-H - Export
+- 512-bit Primzahlen
+- die zwei häufigsten Primzahlen werden für 92.3% aller EXPORT DHE Server verwendet
+.code code/primes
+
+* Number Field Sieve (NSF)
+: Zahlkörpersieb
+
+* NFS - Übersicht
+- Algorithmus aus der Zahlentheorie
+- sowohl anwendbar auf RSA als auch auf DH
+- schon lange bekannt, aber eher unter Mathematikern
+Laufzeiten in Prozessor Jahren:
+.image img/laufzeit_gesamt.png
+
+* NFS - Ablauf(1)
+.image img/nfs_1.png
+
+* NFS - Ablauf(2)
+.image img/nfs_2.png
+
+* NFS - Ablauf unterteilt
+.image img/nfs_3.png
+
+* NFS - Laufzeit unterteilt
+Laufzeiten in Prozessor Jahren:
+.image img/laufzeit_unterteilt.png
+
+* logjam
+
+* logjam - Rekapitulation
+- TLS Handshake Protokoll Schwäche
+- wenige 512-bit Primzahlen in freier Wildbahn
+- zweiteiligen Algorithmus für die Berechnung des diskreten Logarithmus
+
+*Wie*baue*ich*einen*Exploit?*
+
+* logjam - Exploit(1)
+.image img/mim_1.png
+
+* logjam - Exploit(2)
+.image img/mim_2.png
+
+* logjam - Exploit(3)
+.image img/mim_3.png
+
+* logjam - Exploit(4)
+.image img/mim_4.png
+
+* logjam - Exploit(5)
+.image img/mim_5.png
+
+* logjam - Zusammenfassung
+
+1. Ich suche einen Server der noch EXPORT_DHE unterstützt (2015 8.4% der Top 1M Domains)
+
+2. Ich berechne den ersten Teil des NSF (ca. 75$ mit AWS EC2 Instanzen)
+
+3. Ich Klinke mich als Man in the Middle zwischen meinem Ziel und dem Server ein
+
+4. Ich halte einen halbwegs leistungsstarken Server (16 Kerne) für den zweiten Teil des NSF bereit
+
+5. Ich kann in Echtzeit TLS Verbindungen knacken
+
+6. ...
+
+* logjam - Abwehrstrategien
+
+Als Client:
+
+- schlechte Karten (Protokollebene)
+- aktuelle Browser akzeptieren keine Primzahlen < 768-bit
+- warten auf TLS1.3
+
+Als Server:
+
+- `jdk.tls.ephemeralDHKeySize=2048`
+- Eliptic Curves (wahrscheinlich kein NFS möglich)
+- regelmäßig neue Primzahlen verwenden (nicht ganz trivial)
+
+* Fazit
+.image img/nsa.svg 200 200
+                      Crypto Backdoors sind Zombies
+.image img/math.jpg 200 _
+                      Theorie ist wichtig
+
+* Quellen
+- https://weakdh.org/ David Adrian et al.
+- IT-Sicherheit WiSe2015 Prof. Dr. rer. nat. Peter Hartmann
+- Executive Order 13026 Bill Clinton https://www.gpo.gov/fdsys/pkg/FR-1996-11-19/pdf/96-29692.pdf
+- EAR Bereau of Industry and Security https://www.bis.doc.gov/index.php/documents/regulation-docs/434-part-772-definitions-of-terms/file
+- New Directions in Cryptography Whitfield Diffie und Martin Hellman 1976
+- Number Field Sieve Katja Schmidt-Samoa https://www.cdc.informatik.tu-darmstadt.de/~samoa/NFS.pdf
+
+* Bilder
+- xkcd https://xkcd.com/1323/
+- GFDL
+- Public Domain
+- CC
+- Georg Held
+
+* Fragen?
+
+* Live-Demo
+
+.link https://twitter.com/DLogBot?lang=de
+
+.link http://sage.haw-landshut.de/home/sgheldd/23/
