@@ -105,6 +105,7 @@ Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinati
 - Algorithmus aus der Zahlentheorie
 - sowohl anwendbar auf RSA als auch auf DH
 - schon lange bekannt, aber eher unter Mathematikern
+.image img/laufzeit-big-theta.png 45 _
 Laufzeiten in Prozessor Jahren:
 .image img/laufzeit_gesamt.png
 
