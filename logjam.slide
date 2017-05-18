@@ -27,6 +27,8 @@ Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinati
 
 * TLS - Was ist TLS?
 - dient zum Aufbau einer sicheren Kommunikation über unsichere Kanäle
+- besteht (fast) immer aus zwei Phasen: Schlüsselaustausch und verschlüsselte Kommunikation => Notwendigkeit von symmetrischer und asymmetrischer Kryptographie
+: zwei verschiedene Cryptosysteme: asymmetrisch und symmetrisch
 - beruht auf X.509 Zertifikaten (öffentlicher RSA Schlüssel + CA Signaturen)
 - das wichtigste Werkzeug für verschlüsselte Kommunikation im Internet
 - verwendet verschiedene Cipher Suits, die sich über die Jahre geändert haben
