@@ -27,7 +27,7 @@ Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinati
 
 * TLS - Was ist TLS?
 - dient zum Aufbau einer sicheren Kommunikation über unsichere Kanäle
-- besteht (fast) immer aus zwei Phasen: Schlüsselaustausch und verschlüsselte Kommunikation => Notwendigkeit von symmetrischer und asymmetrischer Kryptographie
+- besteht (fast) immer aus zwei Phasen: Schlüsselaustausch und verschlüsselte Kommunikation => Notwendigkeit von asymmetrischer und symmetrischer Kryptographie
 : zwei verschiedene Cryptosysteme: asymmetrisch und symmetrisch
 - beruht auf X.509 Zertifikaten (öffentlicher RSA Schlüssel + CA Signaturen)
 - das wichtigste Werkzeug für verschlüsselte Kommunikation im Internet
@@ -38,11 +38,11 @@ Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinati
 .code -edit code/ciphers
 
 * TLS Export Grade
-- Stammt aus dem Kalten Krieg und dem _First_Crypto_War_
+- stammt aus dem Kalten Krieg und dem _First_Crypto_War_
 - Kryptographie fiel unter das Kriegswaffenkontrollgesetz (United States Munitions List)
 - Beschränkungen der Schlüssellängen (symmetrisch auf ca. 40-bit, asymmetrisch 512-bit) durch die Export Administrations Regulations(EAR)
 : Bureau of Industry and Security
-- Aufgehoben durch die Executive Order 13026 von 1996, EAR wurde aber erst 1999 angepasst
+- aufgehoben durch die Executive Order 13026 von 1996, EAR wurde aber erst 1999 angepasst
 - SSL3 ist von 1996
 .image img/US-DOC-BureauOfIndustryAndSecurity-Seal.svg 200 _
 
@@ -100,7 +100,7 @@ Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinati
 - die zwei häufigsten Primzahlen werden für 92.3% aller EXPORT DHE Server verwendet
 .code code/primes
 
-* Number Field Sieve (NSF)
+* Number Field Sieve (NFS)
 : Zahlkörpersieb
 
 * NFS - Übersicht
@@ -129,7 +129,7 @@ Laufzeiten in Prozessor Jahren:
 * logjam - Rekapitulation
 - TLS Handshake Protokoll Schwäche
 - wenige 512-bit Primzahlen in freier Wildbahn
-- zweiteiligen Algorithmus für die Berechnung des diskreten Logarithmus
+- zweiteiliger Algorithmus für die Berechnung des diskreten Logarithmus
 
 *Wie*baue*ich*einen*Exploit?*
 
@@ -150,17 +150,17 @@ Laufzeiten in Prozessor Jahren:
 
 * logjam - Zusammenfassung
 
-1. Ich suche einen Server der noch EXPORT_DHE unterstützt (2015 8.4% der Top 1M Domains)
+1. Ich suche einen Server der noch EXPORT_DHE unterstützt (2015 8.4% der Top 1M Domains).
 
-2. Ich berechne den ersten Teil des NSF (ca. 75$ mit AWS EC2 Instanzen)
+2. Ich berechne den ersten Teil des NFS (ca. 75$ mit AWS EC2 Instanzen).
 
-3. Ich Klinke mich als Man in the Middle zwischen meinem Ziel und dem Server ein
+3. Ich klinke mich als _Man_in_the_Middle_ zwischen meinem Ziel und dem Server ein.
 
-4. Ich halte einen halbwegs leistungsstarken Server (16 Kerne) für den zweiten Teil des NSF bereit
+4. Ich halte einen halbwegs leistungsstarken Server (16 Kerne) für den zweiten Teil des NFS bereit.
 
-5. Ich kann in Echtzeit TLS Verbindungen knacken
+5. Ich kann in Echtzeit TLS Verbindungen knacken.
 
-6. ...
+6. ... .
 
 * logjam - Abwehrstrategien
 
@@ -203,4 +203,4 @@ Als Server:
 
 .link https://twitter.com/DLogBot?lang=de
 
-.link http://sage.haw-landshut.de/home/sgheldd/23/
+.link https://sage.haw-landshut.de/home/sgheldd/23/
