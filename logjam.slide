@@ -12,7 +12,7 @@ s-gheldd@haw-landshut.de
 
 * Einleitung - weakdh.org
 .iframe https://weakdh.org/ 400 800
-Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinationalen Team von Forschern des CNRS, Inria Nancy-Grand Est, Inria Paris-Rocquencourt, Microsoft Research, Johns Hopkins University, University of Michigan und der University of Pennsylvania
+Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinationalen Team von Forschern des CNRS, Inria Nancy-Grand Est, Inria Paris-Rocquencourt, Microsoft Research, Johns Hopkins University, University of Michigan und der University of Pennsylvania.
 
 * Einleitung - Agenda
 : Erst die Puzzle Teile auslegen dann den Exploit aufbauen
