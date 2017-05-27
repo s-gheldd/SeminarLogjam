@@ -31,10 +31,10 @@ Exploit auf Protokollebene gegen TLS mit DHE publiziert 2015 von einem multinati
 : zwei verschiedene Cryptosysteme: asymmetrisch und symmetrisch
 - beruht auf X.509 Zertifikaten (öffentlicher RSA Schlüssel + CA Signaturen)
 - das wichtigste Werkzeug für verschlüsselte Kommunikation im Internet
-- verwendet verschiedene Cipher Suits, die sich über die Jahre geändert haben
+- verwendet verschiedene Cipher Suites, die sich über die Jahre geändert haben
 .image img/TLS_google.png
 
-* TLS - Cipher Suits
+* TLS - Cipher Suites
 .code -edit code/ciphers
 
 * TLS Export Grade
